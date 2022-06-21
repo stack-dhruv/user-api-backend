@@ -14,14 +14,16 @@ var storage = multer.diskStorage({
 var upload = multer({storage:storage});
 
 // form file at the root of the upload
-router.get('/upload', (req, res) => {
+router.get('/api/upload', (req, res) => {
+	console.log("/api/upload = GET = result received");
 	res.sendFile(path.resolve(__dirname + '/upload.html'));
 })
 
 // single upload
-router.post('/upload', upload.single('image'), (req,res) => {
+router.post('/api/upload', upload.single('image'), (req,res) => {
 	try {
 		console.log(req.file);
+        console.log("/api/upload = POST = result received");
 		res.send(req.file);
 	} catch (error) {
 		res.status(500).send(error);
@@ -29,9 +31,10 @@ router.post('/upload', upload.single('image'), (req,res) => {
 })
 
 // bulk upload [maximum 10]
-router.post('/upload/bulk', upload.array('image',10), (req,res) => {
+router.post('/api/upload/bulk', upload.array('image',10), (req,res) => {
 	try {
 		console.log(req.file);
+        console.log("/api/upload = POST = result received");
 		res.send(req.files);
 	} catch (error) {
 		res.status(500).send(error);

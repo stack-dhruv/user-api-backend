@@ -1,11 +1,12 @@
 const Hobby = require("../models/hobbies");
 const router = require("express").Router();
 
-router.get("/hobby",async (req, res) => {
+router.get("/api/hobby",async (req, res) => {
   try {
     await Hobby.find({})
     .exec((error, result) => {
         if (error) res.status(404).send(error);
+        console.log("/api/hobby = GET = result received");
         res.send(result);
     });
   } catch (error) {
@@ -13,7 +14,7 @@ router.get("/hobby",async (req, res) => {
   }
 });
 
-router.post("/hobby", async (req, res) => {
+router.post("/api/hobby", async (req, res) => {
     try {
         if(!req.body) res.status(403).send('Body must be provided');
 
@@ -22,6 +23,7 @@ router.post("/hobby", async (req, res) => {
             if (error) {
                 res.send(error);
             }
+            console.log("/api/hobby = POST = result received");
             res.send(result);
         })
     } catch (error) {

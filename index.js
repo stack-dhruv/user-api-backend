@@ -1,8 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-
-const path = require('path');
 const app = express();
 
 // parsing the request body into json
@@ -11,11 +10,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // const uri = 'mongodb://localhost:27017/user-api'; 
-const uri = 'mongodb+srv://test:test1234@node-app.4kvc5.mongodb.net/node-api?retryWrites=true&w=majority';
+const uri = process.env.DATABASE_URI;
 
 // database connection
 mongoose.connect(uri)
-.then(() => {console.log('------\nDatabase is connected\n-------')})
+.then(() => {console.log('\t\t\t === Database is connected ===')})
 .catch((e) => {console.log(e)});
 
 const userRouter = require('./routes/user');
@@ -25,7 +24,7 @@ app.use('/', userRouter);
 app.use('/', hobbyRouter);
 app.use('/', uploadRouter);
 
-const port = 3000;
+const port = process.env.PORT;
 app.listen(port, () => {
-	console.log(`-------\nserver is live on ${port}\n-------`);
+	console.log(`\t\t\t === Server is live on ${port} ===`);
 })

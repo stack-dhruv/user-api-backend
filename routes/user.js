@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 // getting list of all users
-router.get("/users", async (req, res) => {
+router.get("/api/users", async (req, res) => {
   try {
     //using async over here gives the error
     User.find({}, {password:0})
@@ -29,7 +29,7 @@ router.get("/users", async (req, res) => {
 });
 
 // getting user from particular id
-router.get("/users/:id", async (req, res) => {
+router.get("/api/users/:id", async (req, res) => {
   try {
     const _id = req.params.id;
     const userData = await User.find({_id:req.params.id}, {password:0});
@@ -43,7 +43,7 @@ router.get("/users/:id", async (req, res) => {
 });
 
 // post the user-data in the database
-router.post("/users", async (req, res) => {
+router.post("/api/users", async (req, res) => {
   try {
     // const userData = new User(req.body);
     // const userData = new User({
@@ -82,7 +82,7 @@ router.post("/users", async (req, res) => {
 });
 
 // updating the data
-router.patch("/users/:id", async (req, res) => {
+router.patch("/api/users/:id", async (req, res) => {
   try {
     
     // validating the request body 
@@ -105,12 +105,13 @@ router.patch("/users/:id", async (req, res) => {
 });
 
 // delete the user data
-router.delete("/users/:id", async (req, res) => {
+router.delete("/api/users/:id", async (req, res) => {
   try {
     User.deleteOne({ _id: req.params.id }, (error, result) => {
       if (error) {
         res.status(404).send(error);
       }
+      console.log("/api/users/" +  _id + " = GET = result received");
       res.json({"message" : "deleted user successfully"});
     });
   } catch (error) {
@@ -119,7 +120,7 @@ router.delete("/users/:id", async (req, res) => {
 });
 
 // finding the users from specific firstName
-router.get("/users/find/:firstName", async (req, res) => {
+router.get("/api/users/find/:firstName", async (req, res) => {
   try {
     await User.aggregate([
       { $match : { firstName : req.params.firstName }},
